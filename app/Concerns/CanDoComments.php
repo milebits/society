@@ -5,7 +5,7 @@ namespace Milebits\Society\Concerns;
 
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Trait CanDoComments
@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 trait CanDoComments
 {
     /**
-     * @return MorphToMany
+     * @return MorphMany
      */
     public function comments()
     {
-        return $this->morphedByMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**

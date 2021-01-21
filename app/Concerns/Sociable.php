@@ -14,11 +14,6 @@ trait Sociable
 {
     protected ?SocietyRepository $society = null;
 
-    public function bootSociable()
-    {
-
-    }
-
     public function initializeSociable()
     {
         if (is_null($this->society))

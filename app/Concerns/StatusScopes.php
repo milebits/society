@@ -14,12 +14,6 @@ use function Milebits\Society\Helpers\constVal;
  */
 trait StatusScopes
 {
-    public static function bootStatusScopes()
-    {
-
-    }
-
-
     public function initializeStatusScopes()
     {
         $this->mergeFillable([$this->getStatusColumn()]);
