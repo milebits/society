@@ -26,6 +26,8 @@ if (!function_exists('propVal')) {
     function propVal($class, string $name, $default = null)
     {
         if (is_object($class)) $class = get_class($class);
+        if (!property_exists($class, $name))
+            return $default;
         return $class::$$name ?? $default;
     }
 }
