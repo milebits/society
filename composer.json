@@ -1,0 +1,47 @@
+{
+  "name": "milebits/society",
+  "description": "A Laravel packages to allow your application to have a social network system.",
+  "type": "library",
+  "require": {
+    "laravel/framework": "^6|^7|^8",
+    "php": ">=7.4"
+  },
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Hicham SADDEK",
+      "email": "h.saddek@serrahub.com",
+      "homepage": "https://linkedin.com/in/hicham-saddek",
+      "role": "Lead Developer"
+    },
+    {
+      "name": "Milebits Systems",
+      "email": "support@milebits.com",
+      "homepage": "https://os.milebits.com",
+      "role": "Project Manager"
+    }
+  ],
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "autoload": {
+    "files": [
+      "src/Helpers/functions.php"
+    ],
+    "psr-4": {
+      "Milebits\\Society\\": "app/",
+      "Milebits\\Society\\Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Milebits\\Society\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Milebits\\Society\\Providers\\SocietyServiceProvider"
+      ]
+    }
+  }
+}
