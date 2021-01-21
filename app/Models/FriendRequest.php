@@ -28,6 +28,16 @@ class FriendRequest extends Model
     const RECIPIENT_MORPH = "recipient";
     const SENDER_MORPH = "sender";
 
+    public function __construct(array $attributes = [])
+    {
+        $this->mergeFillable([
+            $this->getSenderIdColumn(), $this->getSenderTypeColumn(),
+            $this->getRecipientIdColumn(), $this->getRecipientTypeColumn(),
+            $this->getStatusColumn(),
+        ]);
+        parent::__construct($attributes);
+    }
+
     /**
      * @return MorphTo
      */

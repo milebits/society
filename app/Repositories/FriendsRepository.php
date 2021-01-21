@@ -3,88 +3,137 @@
 
 namespace Milebits\Society\Repositories;
 
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Milebits\Society\Concerns\Sociable;
 use Milebits\Society\Models\FriendRequest;
 
 class FriendsRepository
 {
+    protected ?Model $model = null;
 
-    /**
-     * @return Collection
-     */
-    public function all(): Collection
+    protected ?SocietyRepository $society = null;
+
+    public function __construct(SocietyRepository $society)
     {
-
+        $this->society = $society;
+        $this->model = $this->society->parent();
     }
 
     /**
-     * @return Collection
+     * @return Model|null
      */
-    public function accepted(): Collection
+    public function model(): ?Model
     {
-
+        return $this->model;
     }
 
     /**
-     * @return Collection
+     * @return SocietyRepository|null
      */
-    public function blocked(): Collection
+    public function society(): ?SocietyRepository
     {
-
+        return $this->society;
     }
 
     /**
-     * @return Collection
+     * @return Builder
      */
-    public function pending(): Collection
+    public function all(): Builder
     {
-
+        return FriendRequest::whereSenderIs($this->model())->orWhereRecipientIs($this->model());
     }
 
     /**
-     * @return Collection
+     * @return Builder
      */
-    public function denied(): Collection
+    public function accepted(): Builder
     {
-
+        return FriendRequest::whereSenderIs($this->model())->orWhereRecipientIs($this->model())->accepted();
     }
 
     /**
-     * @param Model $model
+     * @return Builder
+     */
+    public function blocked(): Builder
+    {
+        return FriendRequest::whereSenderIs($this->model())->orWhereRecipientIs($this->model())->blocked();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function pending(): Builder
+    {
+        return FriendRequest::whereSenderIs($this->model())->orWhereRecipientIs($this->model())->pending();
+    }
+
+    /**
+     * @return Builder
+     */
+    public function denied(): Builder
+    {
+        return FriendRequest::whereSenderIs($this->model())->orWhereRecipientIs($this->model())->denied();
+    }
+
+    /**
+     * @param Model|Sociable $model
      * @return Collection
      */
     public function mutualFriendsWith(Model $model): Collection
     {
+        return $model->society()->friends()->accepted()->get()->union($this->accepted()->get());
+    }
 
+    /**
+     * @param Model $friend
+     * @param string $status
+     * @return FriendRequest
+     */
+    public function newRequest(Model $friend, string $status): ?FriendRequest
+    {
+        return FriendRequest::create([
+            'sender_id' => $this->model()->{$this->model()->getKeyName()},
+            'sender_type' => $this->model()->getMorphClass(),
+            'recipient_id' => $friend->{$friend->getKeyName()},
+            'recipient_type' => $friend->getMorphClass(),
+            'status' => $status,
+        ]);
     }
 
     /**
      * @param Model $friend
      * @return FriendRequest|null
      */
-    public function addFriend(Model $friend): ?FriendRequest
+    public function add(Model $friend): ?FriendRequest
     {
+        if (!$this->canBeFriendsWith($friend)) return null;
+        return $this->newRequest($friend, FriendRequest::PENDING);
+    }
 
+    /**
+     * @param Model $friend
+     * @return bool
+     * @throws Exception
+     */
+    public function remove(Model $friend): bool
+    {
+        return FriendRequest::whereBetweenModels($this->model(), $friend)->first()->delete();
     }
 
     /**
      * @param Model $friend
      * @return bool
      */
-    public function removeFriend(Model $friend): bool
+    public function block(Model $friend): bool
     {
-
-    }
-
-    /**
-     * @param Model $friend
-     * @return bool
-     */
-    public function blockFriend(Model $friend): bool
-    {
-
+        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
+        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
+        $friendRequest->status = FriendRequest::BLOCKED;
+        return $friendRequest->save();
     }
 
     /**
@@ -93,7 +142,7 @@ class FriendsRepository
      */
     public function isFriendOf(Model $person): bool
     {
-
+        return FriendRequest::whereBetweenModels($this->model(), $person)->accepted()->exists();
     }
 
     /**
@@ -102,7 +151,7 @@ class FriendsRepository
      */
     public function isBlockedBy(Model $person): bool
     {
-
+        return FriendRequest::whereBetweenModels($this->model(), $person)->blocked()->exists();
     }
 
     /**
@@ -111,7 +160,7 @@ class FriendsRepository
      */
     public function isDeniedBy(Model $person): bool
     {
-
+        return FriendRequest::whereBetweenModels($this->model(), $person)->denied()->exists();
     }
 
     /**
@@ -120,7 +169,10 @@ class FriendsRepository
      */
     public function canBeFriendsWith(Model $person): bool
     {
-
+        return $this->isAllowedToSendFriendRequests()
+            && !$this->isDeniedBy($person)
+            && !$this->isBlockedBy($person)
+            && !$this->isFriendOf($person);
     }
 
     /**
@@ -128,7 +180,7 @@ class FriendsRepository
      */
     public function isAllowedToSendFriendRequests(): bool
     {
-        if(!(Auth::user() instanceof ("Milebits\Authorizer\Concerns\Authorizer"))) return false;
+        if (!(Auth::user() instanceof ("Milebits\Authorizer\Concerns\Authorizer"))) return false;
         return true;
     }
 }

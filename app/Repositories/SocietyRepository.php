@@ -3,6 +3,7 @@
 namespace Milebits\Society\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Milebits\Society\Concerns\Sociable;
 
 class SocietyRepository
 {
@@ -13,16 +14,31 @@ class SocietyRepository
      */
     protected ?Model $parent = null;
 
-    public function __construct(Model &$parent)
+    protected ?FriendsRepository $friends = null;
+
+    /**
+     * SocietyRepository constructor.
+     * @param Sociable|Model $parent
+     */
+    public function __construct($parent)
     {
-        $this->parent = &$parent;
+        $this->parent = $parent;
+        $this->friends = new FriendsRepository($this);
     }
 
     /**
-     * @return Model|null
+     * @return Model|Sociable|null
      */
     public function parent(): ?Model
     {
         return $this->parent;
+    }
+
+    /**
+     * @return FriendsRepository|null
+     */
+    public function friends()
+    {
+        return $this->friends;
     }
 }
