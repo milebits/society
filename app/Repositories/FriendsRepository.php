@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Milebits\Society\Models\FriendRequest;
 
-class FriendRequestsRepository
+class FriendsRepository
 {
 
     /**
