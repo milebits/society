@@ -11,12 +11,82 @@ use Illuminate\Support\Collection;
 use Milebits\Society\Concerns\StatusScopes;
 use function Milebits\Society\Helpers\constVal;
 
+/**
+ * Class Lean
+ * @package App\Models
+ * @property string $status
+ */
 class Lean extends Model
 {
     use SoftDeletes, HasFactory, StatusScopes;
 
     const OWNER_MORPH = "owner";
     const LEANABLE_MORPH = "leanable";
+
+    const DISLIKE = "dislike";
+    const HEART = "heart";
+    const LAUGH = "laugh";
+    const LIKE = "like";
+    const SAD = "sad";
+    const CRY = "cry";
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function markAs(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function dislike()
+    {
+        return $this->markAs(self::DISLIKE);
+    }
+
+    /**
+     * @return $this
+     */
+    public function heart()
+    {
+        return $this->markAs(self::HEART);
+    }
+
+    /**
+     * @return $this
+     */
+    public function laugh()
+    {
+        return $this->markAs(self::LAUGH);
+    }
+
+    /**
+     * @return $this
+     */
+    public function like()
+    {
+        return $this->markAs(self::LIKE);
+    }
+
+    /**
+     * @return $this
+     */
+    public function sad()
+    {
+        return $this->markAs(self::SAD);
+    }
+
+    /**
+     * @return $this
+     */
+    public function cry()
+    {
+        return $this->markAs(self::CRY);
+    }
 
     /**
      * @return MorphTo
