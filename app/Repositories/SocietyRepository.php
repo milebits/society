@@ -14,6 +14,9 @@ class SocietyRepository
      */
     protected ?Model $parent = null;
 
+    /**
+     * @var FriendsRepository|null
+     */
     protected ?FriendsRepository $friends = null;
 
     /**
