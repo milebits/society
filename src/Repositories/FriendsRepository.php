@@ -72,6 +72,7 @@ class FriendsRepository extends ChildRepository
     public function newRequest(Model $friend, string $status): ?FriendRequest
     {
         if (!$this->delete($friend)) return null;
+        if (!($friend instanceof Sociable)) return null;
         return FriendRequest::create([
             'sender_id' => $this->model()->{$this->model()->getKeyName()},
             'sender_type' => $this->model()->getMorphClass(),
