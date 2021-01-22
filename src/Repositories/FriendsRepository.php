@@ -110,6 +110,30 @@ class FriendsRepository extends ChildRepository
     }
 
     /**
+     * @param Model $friend
+     * @return bool
+     */
+    public function accept(Model $friend): bool
+    {
+        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
+        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
+        $friendRequest->status = FriendRequest::ACCEPTED;
+        return $friendRequest->save();
+    }
+
+    /**
+     * @param Model $friend
+     * @return bool
+     */
+    public function deny(Model $friend): bool
+    {
+        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
+        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
+        $friendRequest->status = FriendRequest::DENIED;
+        return $friendRequest->save();
+    }
+
+    /**
      * @param Model $person
      * @return bool
      */
