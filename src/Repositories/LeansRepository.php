@@ -36,7 +36,9 @@ class LeansRepository extends ChildRepository
      */
     public function delete(Model $model): bool
     {
-        return Lean::whereBetweenModels($this->model(), $model)->first()->delete();
+        $lean = Lean::whereBetweenModels($this->model(), $model)->first();
+        if(is_null($lean)) return true;
+        return $lean->delete();
     }
 
     /**
