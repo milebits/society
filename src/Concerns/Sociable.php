@@ -12,7 +12,7 @@ use Milebits\Society\Repositories\SocietyRepository;
  */
 trait Sociable
 {
-    protected ?SocietyRepository $society = null;
+    public ?SocietyRepository $society = null;
 
     public function initializeSociable()
     {

@@ -17,14 +17,14 @@ class SocietyRepository
     /**
      * @var FriendsRepository|null
      */
-    protected ?FriendsRepository $friends = null;
+    public ?FriendsRepository $friends = null;
 
     /**
      * @var CommentsRepository|null
      */
-    protected ?CommentsRepository $comments = null;
+    public ?CommentsRepository $comments = null;
 
-    protected ?LeansRepository $leans = null;
+    public ?LeansRepository $leans = null;
 
     /**
      * SocietyRepository constructor.
