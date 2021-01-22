@@ -20,6 +20,11 @@ class Lean extends Model
 {
     use SoftDeletes, HasFactory, StatusScopes;
 
+    protected $fillable = [
+        'owner_id', 'leanable_id', 'status',
+        'owner_type', 'leanable_type'
+    ];
+
     const OWNER_MORPH = "owner";
     const LEANABLE_MORPH = "leanable";
 
