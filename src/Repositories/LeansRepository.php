@@ -95,7 +95,7 @@ class LeansRepository extends ChildRepository
     /**
      * @param Model $model
      * @param string $status
-     * @return Model|null
+     * @return Model|Lean|null
      * @throws Exception
      */
     public function newLean(Model $model, string $status): ?Model
