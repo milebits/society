@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Milebits\Society\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -3,7 +3,7 @@
 
 namespace Milebits\Society\Concerns;
 
-use App\Models\Tag;
+use Milebits\Society\Models\Tag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 

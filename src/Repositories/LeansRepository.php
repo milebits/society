@@ -4,7 +4,7 @@
 namespace Milebits\Society\Repositories;
 
 
-use App\Models\Lean;
+use Milebits\Society\Models\Lean;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

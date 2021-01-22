@@ -3,7 +3,7 @@
 
 namespace Milebits\Society\Concerns;
 
-use App\Models\Lean;
+use Milebits\Society\Models\Lean;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 

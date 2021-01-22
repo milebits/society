@@ -3,7 +3,7 @@
 
 namespace Milebits\Society\Concerns;
 
-use App\Models\Attachment;
+use Milebits\Society\Models\Attachment;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\Model;

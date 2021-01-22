@@ -3,7 +3,7 @@
 
 namespace Milebits\Society\Concerns;
 
-use App\Models\Comment;
+use Milebits\Society\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
