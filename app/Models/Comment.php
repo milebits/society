@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Milebits\Society\Concerns\Commentable;
+use Milebits\Society\Concerns\Leanable;
 
 class Comment extends Model
 {
-    use SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory, Commentable, Leanable;
 
     protected $fillable = [
         'owner_id', 'owner_type',
