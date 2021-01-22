@@ -14,7 +14,6 @@ class CreateLeansTable extends Migration
             $table->morphs('leanable');
             $table->string('status')->default("like");
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

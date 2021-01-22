@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Milebits\Society\Concerns\StatusScopes;
 use function Milebits\Society\Helpers\constVal;
@@ -18,7 +17,7 @@ use function Milebits\Society\Helpers\constVal;
  */
 class Lean extends Model
 {
-    use SoftDeletes, HasFactory, StatusScopes;
+    use HasFactory, StatusScopes;
 
     protected $fillable = [
         'owner_id', 'leanable_id', 'status',
