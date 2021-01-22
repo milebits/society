@@ -66,12 +66,12 @@ class FriendsRepository extends ChildRepository
     /**
      * @param Model $friend
      * @param string $status
-     * @return FriendRequest
+     * @return FriendRequest|null
      * @throws Exception
      */
     public function newRequest(Model $friend, string $status): ?FriendRequest
     {
-        $this->remove($friend);
+        if (!$this->delete($friend)) return null;
         return FriendRequest::create([
             'sender_id' => $this->model()->{$this->model()->getKeyName()},
             'sender_type' => $this->model()->getMorphClass(),
@@ -97,7 +97,7 @@ class FriendsRepository extends ChildRepository
      * @return bool
      * @throws Exception
      */
-    public function remove(Model $friend): bool
+    public function delete(Model $friend): bool
     {
         $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
         if (is_null($friendRequest)) return true;
