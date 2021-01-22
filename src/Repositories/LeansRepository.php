@@ -4,10 +4,10 @@
 namespace Milebits\Society\Repositories;
 
 
-use Milebits\Society\Models\Lean;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Milebits\Society\Models\Lean;
 
 class LeansRepository extends ChildRepository
 {
@@ -103,5 +103,59 @@ class LeansRepository extends ChildRepository
             'leanable_type' => $model->getMorphClass(),
             'status' => $status,
         ]);
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function liked(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::LIKE)->exists();
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function disliked(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::DISLIKE)->exists();
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function hearted(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::HEART)->exists();
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function laughedAt(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::LAUGH)->exists();
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function criedAt(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::CRY)->exists();
+    }
+
+    /**
+     * @param Model $model
+     * @return bool
+     */
+    public function sadOver(Model $model)
+    {
+        return Lean::whereOwnerIs($this->model())->whereLeanableIs($model)->whereStatus(Lean::SAD)->exists();
     }
 }
