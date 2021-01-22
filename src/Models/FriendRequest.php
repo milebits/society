@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Milebits\Society\Concerns\StatusScopes;
+use Milebits\Society\Security\SameSenderAndRecipientAvoidance;
 use function Milebits\Society\Helpers\constVal;
 
 /**
@@ -19,7 +20,11 @@ use function Milebits\Society\Helpers\constVal;
  */
 class FriendRequest extends Model
 {
+    // Traits
     use HasFactory, SoftDeletes, StatusScopes, SoftDeletes;
+
+    // Security - Avoidance
+    use SameSenderAndRecipientAvoidance;
 
     const PENDING = "pending";
     const ACCEPTED = "accepted";
