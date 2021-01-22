@@ -7,7 +7,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Milebits\Society\Concerns\Sociable;
 use Milebits\Society\Models\FriendRequest;
 
@@ -143,18 +142,8 @@ class FriendsRepository extends ChildRepository
      */
     public function canBeFriendsWith(Model $person): bool
     {
-        return $this->isAllowedToSendFriendRequests()
-            && !$this->isDeniedBy($person)
+        return !$this->isDeniedBy($person)
             && !$this->isBlockedBy($person)
             && !$this->isFriendOf($person);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAllowedToSendFriendRequests(): bool
-    {
-        if (!(Auth::user() instanceof ("Milebits\Authorizer\Concerns\Authorizer"))) return false;
-        return true;
     }
 }
