@@ -11,9 +11,9 @@ class CreateStoriesTable extends Migration
         Schema::create('stories', function (Blueprint $table) {
             $table->id();
             $table->morphs('owner');
-            $table->morphs('attachment');
             $table->longText('content')->nullable();
             $table->string('enabled')->default(true);
+            $table->longText('media_path');
             $table->timestamps();
             $table->softDeletes();
         });

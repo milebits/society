@@ -24,7 +24,15 @@ class SocietyRepository
      */
     public ?CommentsRepository $comments = null;
 
+    /**
+     * @var LeansRepository|null
+     */
     public ?LeansRepository $leans = null;
+
+    /**
+     * @var StoriesRepository|null
+     */
+    public ?StoriesRepository $stories = null;
 
     /**
      * SocietyRepository constructor.
@@ -36,6 +44,7 @@ class SocietyRepository
         $this->friends = new FriendsRepository($this);
         $this->comments = new CommentsRepository($this);
         $this->leans = new LeansRepository($this);
+        $this->stories = new StoriesRepository($this);
     }
 
     /**
@@ -68,5 +77,13 @@ class SocietyRepository
     public function leans()
     {
         return $this->leans;
+    }
+
+    /**
+     * @return StoriesRepository|null
+     */
+    public function stories()
+    {
+        return $this->stories;
     }
 }
