@@ -56,9 +56,11 @@ class FriendsRepository extends ChildRepository
      * @param Model|Sociable $model
      * @return Collection
      */
-    public function mutualFriendsWith(Model $model): Collection
+    public function mutual(Model $model): Collection
     {
-        return $model->society()->friends()->accepted()->get()->union($this->accepted()->get());
+        if ($model instanceof Sociable)
+            return $model->society()->friends()->accepted()->get()->union($this->accepted()->get());
+        return collect([]);
     }
 
     /**
@@ -83,7 +85,7 @@ class FriendsRepository extends ChildRepository
      */
     public function add(Model $friend): ?FriendRequest
     {
-        if (!$this->canBeFriendsWith($friend)) return null;
+        if (!$this->canAdd($friend)) return null;
         return $this->newRequest($friend, FriendRequest::PENDING);
     }
 
@@ -164,7 +166,7 @@ class FriendsRepository extends ChildRepository
      * @param Model $person
      * @return bool
      */
-    public function canBeFriendsWith(Model $person): bool
+    public function canAdd(Model $person): bool
     {
         return !$this->isDeniedBy($person)
             && !$this->isBlockedBy($person)
