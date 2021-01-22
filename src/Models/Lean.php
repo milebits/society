@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
-use Milebits\Society\Concerns\StatusScopes;
+use Milebits\Society\Scopes\OwnerScopes;
+use Milebits\Society\Scopes\StatusScopes;
 use function Milebits\Society\Helpers\constVal;
 
 /**
@@ -17,12 +18,9 @@ use function Milebits\Society\Helpers\constVal;
  */
 class Lean extends Model
 {
-    use HasFactory, StatusScopes;
+    use HasFactory, StatusScopes, OwnerScopes;
 
-    protected $fillable = [
-        'owner_id', 'leanable_id', 'status',
-        'owner_type', 'leanable_type'
-    ];
+    protected $fillable = ['leanable_id', 'leanable_type'];
 
     const OWNER_MORPH = "owner";
     const LEANABLE_MORPH = "leanable";
@@ -90,14 +88,6 @@ class Lean extends Model
     public function cry()
     {
         return $this->markAs(self::CRY);
-    }
-
-    /**
-     * @return MorphTo
-     */
-    public function owner()
-    {
-        return $this->morphTo();
     }
 
     /**
@@ -359,183 +349,6 @@ class Lean extends Model
             });
             foreach ($leanable as $model)
                 $builder->whereLeanableIsNot($model);
-            return $builder;
-        });
-    }
-
-    /**
-     * @return string
-     */
-    public function getOwnerIdColumn(): string
-    {
-        return constVal($this, sprintf("%s_id", self::OWNER_MORPH), 'owner_id');
-    }
-
-    /**
-     * @return string
-     */
-    public function getOwnerTypeColumn(): string
-    {
-        return constVal($this, sprintf("%s_type", self::OWNER_MORPH), 'owner_type');
-    }
-
-    /**
-     * @return string
-     */
-    public function getQualifiedOwnerIdColumn(): string
-    {
-        return $this->qualifyColumn($this->getOwnerIdColumn());
-    }
-
-    /**
-     * @return string
-     */
-    public function getQualifiedOwnerTypeColumn(): string
-    {
-        return $this->qualifyColumn($this->getOwnerTypeColumn());
-    }
-
-    /**
-     * @param Builder $builder
-     * @return string
-     */
-    public function decideOwnerIdColumn(Builder $builder): string
-    {
-        return count((array)(property_exists($builder, 'joins') ? $builder->joins : [])) > 0
-            ? $this->getQualifiedOwnerIdColumn()
-            : $this->getOwnerIdColumn();
-    }
-
-    /**
-     * @param Builder $builder
-     * @return string
-     */
-    public function decideOwnerTypeColumn(Builder $builder): string
-    {
-        return count((array)(property_exists($builder, 'joins') ? $builder->joins : [])) > 0
-            ? $this->getQualifiedOwnerTypeColumn()
-            : $this->getOwnerTypeColumn();
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $owner
-     * @return Builder
-     */
-    public function scopeWhereOwnerIs(Builder $builder, Model $owner): Builder
-    {
-        return $builder->where(function (Builder $builder) use ($owner) {
-            return $builder->where($this->decideOwnerIdColumn($builder), '=', $owner->{$owner->getKeyName()})
-                ->where($this->decideOwnerTypeColumn($builder), '=', $owner->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $owner
-     * @return Builder
-     */
-    public function scopeWhereOwnerIsNot(Builder $builder, Model $owner): Builder
-    {
-        return $builder->where(function (Builder $builder) use ($owner): Builder {
-            return $builder->where($this->decideOwnerIdColumn($builder), '!=', $owner->{$owner->getKeyName()})
-                ->where($this->decideOwnerTypeColumn($builder), '!=', $owner->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Collection|Model[]|Model $owners
-     * @return Builder
-     */
-    public function scopeWhereOwnerIsIn(Builder $builder, $owners): Builder
-    {
-        $owners = ($owners instanceof Collection) ? $owners : collect(is_array($owners) ? $owners : [$owners]);
-        return $builder->where(function ($builder) use ($owners) {
-            $owners = $owners->transform(function (Model $item) {
-                return (object)['key' => $item->{$item->getKeyName()}, 'type' => $item->getMorphClass()];
-            });
-            foreach ($owners as $owner) {
-                $builder->orWhereOwnerIs($owner);
-            }
-            return $builder;
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param $owners
-     * @return Builder
-     */
-    public function scopeWhereOwnerIsNotIn(Builder $builder, $owners): Builder
-    {
-        $owners = ($owners instanceof Collection) ? $owners : collect(is_array($owners) ? $owners : [$owners]);
-        return $builder->where(function ($builder) use ($owners) {
-            $owners = $owners->transform(function (Model $item) {
-                return (object)['key' => $item->{$item->getKeyName()}, 'type' => $item->getMorphClass()];
-            });
-            foreach ($owners as $owner)
-                $builder->whereOwnerIsNot($owner);
-            return $builder;
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $owner
-     * @return Builder
-     */
-    public function scopeOrWhereOwnerIs(Builder $builder, Model $owner): Builder
-    {
-        return $builder->orWhere(function ($builder) use ($owner) {
-            return $builder->whereOwnerIs($owner);
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $owner
-     * @return Builder
-     */
-    public function scopeOrWhereOwnerIsNot(Builder $builder, Model $owner): Builder
-    {
-        return $builder->orWhere(function ($builder) use ($owner): Builder {
-            return $builder->whereOwnerIsNot($owner);
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Collection|Model[]|Model $owners
-     * @return Builder
-     */
-    public function scopeOrWhereOwnerIsIn(Builder $builder, $owners): Builder
-    {
-        $owners = ($owners instanceof Collection) ? $owners : collect(is_array($owners) ? $owners : [$owners]);
-        return $builder->orWhere(function ($builder) use ($owners) {
-            $owners = $owners->transform(function (Model $item) {
-                return (object)['key' => $item->{$item->getKeyName()}, 'type' => $item->getMorphClass()];
-            });
-            foreach ($owners as $owner)
-                $builder->orWhereOwnerIs($owner);
-            return $builder;
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param $owners
-     * @return Builder
-     */
-    public function scopeOrWhereOwnerIsNotIn(Builder $builder, $owners): Builder
-    {
-        $owners = ($owners instanceof Collection) ? $owners : collect(is_array($owners) ? $owners : [$owners]);
-        return $builder->orWhere(function ($builder) use ($owners) {
-            $owners = $owners->transform(function (Model $item) {
-                return (object)['key' => $item->{$item->getKeyName()}, 'type' => $item->getMorphClass()];
-            });
-            foreach ($owners as $owner)
-                $builder->whereOwnerIsNot($owner);
             return $builder;
         });
     }

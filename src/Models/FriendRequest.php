@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
-use Milebits\Society\Concerns\StatusScopes;
+use Milebits\Society\Scopes\StatusScopes;
 use Milebits\Society\Security\FriendRequestAvoidanceManager;
 use function Milebits\Society\Helpers\constVal;
 
@@ -225,7 +225,7 @@ class FriendRequest extends Model
      */
     public function getRecipientIdColumn(): string
     {
-        return constVal($this, sprintf("%s_id", self::RECIPIENT_MORPH), 'recipient_id');
+        return sprintf("%s_id", constVal($this, "RECIPIENT_MORPH", 'recipient_id'));
     }
 
     /**
@@ -233,7 +233,7 @@ class FriendRequest extends Model
      */
     public function getRecipientTypeColumn(): string
     {
-        return constVal($this, sprintf("%s_type", self::RECIPIENT_MORPH), 'recipient_type');
+        return sprintf("%s_type", constVal($this, "RECIPIENT_MORPH", 'recipient_type'));
     }
 
     /**
@@ -402,7 +402,7 @@ class FriendRequest extends Model
      */
     public function getSenderIdColumn(): string
     {
-        return constVal($this, sprintf("%s_id", self::SENDER_MORPH), 'sender_id');
+        return sprintf("%s_id", constVal($this, "SENDER_MORPH", 'sender_id'));
     }
 
     /**
@@ -410,7 +410,7 @@ class FriendRequest extends Model
      */
     public function getSenderTypeColumn(): string
     {
-        return constVal($this, sprintf("%s_type", self::SENDER_MORPH), 'sender_type');
+        return sprintf("%s_type", constVal($this, "SENDER_MORPH", 'sender_type'));
     }
 
     /**
