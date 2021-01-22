@@ -54,6 +54,9 @@ class SocietyRepository
         return $this->friends;
     }
 
+    /**
+     * @return CommentsRepository|null
+     */
     public function comments()
     {
         return $this->comments;
