@@ -7,7 +7,6 @@ namespace Milebits\Society\Repositories;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Milebits\Society\Concerns\Leanable;
 use Milebits\Society\Models\Lean;
 
 class LeansRepository extends ChildRepository
@@ -100,8 +99,7 @@ class LeansRepository extends ChildRepository
      */
     public function newLean(Model $model, string $status): ?Model
     {
-        if (!$this->delete($model)) return null;
-        if (!($model instanceof Leanable)) return null;
+        $this->delete($model);
         return $this->all()->create([
             'leanable_id' => $model->getKey(),
             'leanable_type' => $model->getMorphClass(),

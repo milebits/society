@@ -19,7 +19,6 @@ class CommentsRepository extends ChildRepository
      */
     public function add(Model $model, array $data, array $attachments = null): ?Model
     {
-        if (!($model instanceof Commentable)) return null;
         $comment = $this->newComment(array_merge($data, [
             'commentable_id' => $model->getKey(),
             'commentable_type' => $model->getMorphClass(),

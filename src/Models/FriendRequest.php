@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Milebits\Society\Concerns\StatusScopes;
-use Milebits\Society\Security\SameSenderAndRecipientAvoidance;
+use Milebits\Society\Security\FriendRequestAvoidanceManager;
 use function Milebits\Society\Helpers\constVal;
 
 /**
@@ -23,8 +23,8 @@ class FriendRequest extends Model
     // Traits
     use HasFactory, SoftDeletes, StatusScopes, SoftDeletes;
 
-    // Security - Avoidance
-    use SameSenderAndRecipientAvoidance;
+    // Security
+    use FriendRequestAvoidanceManager;
 
     const PENDING = "pending";
     const ACCEPTED = "accepted";

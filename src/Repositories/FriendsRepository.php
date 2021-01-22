@@ -58,9 +58,7 @@ class FriendsRepository extends ChildRepository
      */
     public function mutual(Model $model): Collection
     {
-        if ($model instanceof Sociable)
-            return $model->society()->friends()->accepted()->get()->union($this->accepted()->get());
-        return collect([]);
+        return $model->society()->friends()->accepted()->get()->union($this->accepted()->get());
     }
 
     /**
@@ -71,15 +69,14 @@ class FriendsRepository extends ChildRepository
      */
     public function newRequest(Model $friend, string $status): ?FriendRequest
     {
-        if (!$this->delete($friend)) return null;
-        if (!($friend instanceof Sociable)) return null;
+        $this->delete($friend);
         return FriendRequest::create([
             'sender_id' => $this->model()->{$this->model()->getKeyName()},
             'sender_type' => $this->model()->getMorphClass(),
             'recipient_id' => $friend->{$friend->getKeyName()},
             'recipient_type' => $friend->getMorphClass(),
             'status' => $status,
-        ]);
+        ])->refresh();
     }
 
     /**
