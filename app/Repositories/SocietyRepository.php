@@ -20,6 +20,11 @@ class SocietyRepository
     protected ?FriendsRepository $friends = null;
 
     /**
+     * @var CommentsRepository|null
+     */
+    protected ?CommentsRepository $comments = null;
+
+    /**
      * SocietyRepository constructor.
      * @param Sociable|Model $parent
      */
@@ -27,6 +32,7 @@ class SocietyRepository
     {
         $this->parent = $parent;
         $this->friends = new FriendsRepository($this);
+        $this->comments = new CommentsRepository($this);
     }
 
     /**
@@ -43,5 +49,10 @@ class SocietyRepository
     public function friends()
     {
         return $this->friends;
+    }
+
+    public function comments()
+    {
+        return $this->comments;
     }
 }
