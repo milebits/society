@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Milebits\Society\Concerns;
+namespace Milebits\Society\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
