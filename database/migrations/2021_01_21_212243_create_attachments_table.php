@@ -10,7 +10,6 @@ class CreateAttachmentsTable extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->morphs("attachable");
             $table->string('slug')->unique();
             $table->longText("path");
             $table->boolean("enabled")->default(true);
