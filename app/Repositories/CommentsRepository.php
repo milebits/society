@@ -5,32 +5,42 @@ namespace Milebits\Society\Repositories;
 
 
 use App\Models\Comment;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class CommentsRepository extends ChildRepository
 {
-    public function delete(Comment $comment): bool
+    /**
+     * @param Model $model
+     * @param array $data
+     * @param array|null $attachments
+     * @return Model|Comment
+     */
+    public function add(Model $model, array $data, array $attachments = null): Model
     {
-
+        $comment = $this->newComment(array_merge($data, [
+            'commentable_id' => $model->getKey(),
+            'commentable_type' => $model->getMorphClass(),
+        ]));
+        if (!is_null($attachments))
+            $comment->attachments()->createMany($attachments);
+        return $comment;
     }
 
-    public function update(Comment $comment, $data): bool
+    /**
+     * @return MorphMany
+     */
+    public function all(): MorphMany
     {
-
+        return $this->model()->morphMany(Comment::class, "owner");
     }
 
-    public function add($data): Comment
+    /**
+     * @param array $data
+     * @return Model|Comment
+     */
+    public function newComment(array $data)
     {
-
-    }
-
-    public function all(): Builder
-    {
-
-    }
-
-    public function of(): Builder
-    {
-
+        return $this->all()->create($data);
     }
 }
