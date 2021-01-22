@@ -11,34 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Milebits\Society\Concerns\Sociable;
 use Milebits\Society\Models\FriendRequest;
 
-class FriendsRepository
+class FriendsRepository extends ChildRepository
 {
-    protected ?Model $model = null;
-
-    protected ?SocietyRepository $society = null;
-
-    public function __construct(SocietyRepository $society)
-    {
-        $this->society = $society;
-        $this->model = $this->society->parent();
-    }
-
-    /**
-     * @return Model|null
-     */
-    public function model(): ?Model
-    {
-        return $this->model;
-    }
-
-    /**
-     * @return SocietyRepository|null
-     */
-    public function society(): ?SocietyRepository
-    {
-        return $this->society;
-    }
-
     /**
      * @return Builder
      */
