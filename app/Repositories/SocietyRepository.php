@@ -24,6 +24,8 @@ class SocietyRepository
      */
     protected ?CommentsRepository $comments = null;
 
+    protected ?LeansRepository $leans = null;
+
     /**
      * SocietyRepository constructor.
      * @param Sociable|Model $parent
@@ -33,6 +35,7 @@ class SocietyRepository
         $this->parent = $parent;
         $this->friends = new FriendsRepository($this);
         $this->comments = new CommentsRepository($this);
+        $this->leans = new LeansRepository($this);
     }
 
     /**
@@ -54,5 +57,13 @@ class SocietyRepository
     public function comments()
     {
         return $this->comments;
+    }
+
+    /**
+     * @return LeansRepository|null
+     */
+    public function leans()
+    {
+        return $this->leans;
     }
 }
