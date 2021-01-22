@@ -6,7 +6,6 @@ namespace Milebits\Society\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Milebits\Society\Concerns\Commentable;
 use Milebits\Society\Models\Comment;
 
 class CommentsRepository extends ChildRepository
