@@ -4,9 +4,10 @@
 namespace Milebits\Society\Repositories;
 
 
-use Milebits\Society\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Milebits\Society\Concerns\Commentable;
+use Milebits\Society\Models\Comment;
 
 class CommentsRepository extends ChildRepository
 {
@@ -14,10 +15,11 @@ class CommentsRepository extends ChildRepository
      * @param Model $model
      * @param array $data
      * @param array|null $attachments
-     * @return Model|Comment
+     * @return Model|null
      */
-    public function add(Model $model, array $data, array $attachments = null): Model
+    public function add(Model $model, array $data, array $attachments = null): ?Model
     {
+        if (!($model instanceof Commentable)) return null;
         $comment = $this->newComment(array_merge($data, [
             'commentable_id' => $model->getKey(),
             'commentable_type' => $model->getMorphClass(),
