@@ -30,7 +30,7 @@
             "src/Helpers/functions.php"
         ],
         "psr-4": {
-            "Milebits\\Society\\": "app/",
+            "Milebits\\Society\\": "src/",
             "Milebits\\Society\\Database\\Seeders\\": "database/seeders/"
         }
     },
