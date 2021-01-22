@@ -67,9 +67,11 @@ class FriendsRepository extends ChildRepository
      * @param Model $friend
      * @param string $status
      * @return FriendRequest
+     * @throws Exception
      */
     public function newRequest(Model $friend, string $status): ?FriendRequest
     {
+        $this->remove($friend);
         return FriendRequest::create([
             'sender_id' => $this->model()->{$this->model()->getKeyName()},
             'sender_type' => $this->model()->getMorphClass(),
@@ -82,6 +84,7 @@ class FriendsRepository extends ChildRepository
     /**
      * @param Model $friend
      * @return FriendRequest|null
+     * @throws Exception
      */
     public function add(Model $friend): ?FriendRequest
     {
@@ -96,43 +99,39 @@ class FriendsRepository extends ChildRepository
      */
     public function remove(Model $friend): bool
     {
-        return FriendRequest::whereBetweenModels($this->model(), $friend)->first()->delete();
+        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
+        if (is_null($friendRequest)) return true;
+        return $friendRequest->delete();
     }
 
     /**
      * @param Model $friend
-     * @return bool
+     * @return FriendRequest
+     * @throws Exception
      */
-    public function block(Model $friend): bool
+    public function block(Model $friend): FriendRequest
     {
-        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
-        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
-        $friendRequest->status = FriendRequest::BLOCKED;
-        return $friendRequest->save();
+        return $this->newRequest($friend, FriendRequest::BLOCKED);
     }
 
     /**
      * @param Model $friend
-     * @return bool
+     * @return FriendRequest
+     * @throws Exception
      */
-    public function accept(Model $friend): bool
+    public function accept(Model $friend): FriendRequest
     {
-        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
-        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
-        $friendRequest->status = FriendRequest::ACCEPTED;
-        return $friendRequest->save();
+        return $this->newRequest($friend, FriendRequest::ACCEPTED);
     }
 
     /**
      * @param Model $friend
-     * @return bool
+     * @return FriendRequest
+     * @throws Exception
      */
-    public function deny(Model $friend): bool
+    public function deny(Model $friend): FriendRequest
     {
-        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
-        $friendRequest = $friendRequest ?? $this->newRequest($friend, FriendRequest::BLOCKED);
-        $friendRequest->status = FriendRequest::DENIED;
-        return $friendRequest->save();
+        return $this->newRequest($friend, FriendRequest::DENIED);
     }
 
     /**
@@ -148,9 +147,36 @@ class FriendsRepository extends ChildRepository
      * @param Model $person
      * @return bool
      */
+    public function hasAlreadySentTo(Model $person): bool
+    {
+        return FriendRequest::whereSenderIs($this->model())->whereRecipientIs($person)->exists();
+    }
+
+    /**
+     * @param Model $person
+     * @return bool
+     */
+    public function didBlock(Model $person): bool
+    {
+        return FriendRequest::whereRecipientIs($person)->whereSenderIs($this->model())->blocked()->exists();
+    }
+
+    /**
+     * @param Model $person
+     * @return bool
+     */
+    public function didDeny(Model $person): bool
+    {
+        return FriendRequest::whereRecipientIs($person)->whereSenderIs($this->model())->denied()->exists();
+    }
+
+    /**
+     * @param Model $person
+     * @return bool
+     */
     public function isBlockedBy(Model $person): bool
     {
-        return FriendRequest::whereBetweenModels($this->model(), $person)->blocked()->exists();
+        return FriendRequest::whereSenderIs($person)->whereRecipientIs($this->model())->blocked()->exists();
     }
 
     /**
@@ -159,7 +185,7 @@ class FriendsRepository extends ChildRepository
      */
     public function isDeniedBy(Model $person): bool
     {
-        return FriendRequest::whereBetweenModels($this->model(), $person)->denied()->exists();
+        return FriendRequest::whereSenderIs($person)->whereRecipientIs($this->model())->denied()->exists();
     }
 
     /**

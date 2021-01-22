@@ -19,7 +19,7 @@ use function Milebits\Society\Helpers\constVal;
  */
 class FriendRequest extends Model
 {
-    use HasFactory, SoftDeletes, StatusScopes;
+    use HasFactory, SoftDeletes, StatusScopes, SoftDeletes;
 
     const PENDING = "pending";
     const ACCEPTED = "accepted";
