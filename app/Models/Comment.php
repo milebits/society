@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -36,11 +37,11 @@ class Comment extends Model
     }
 
     /**
-     * @return MorphTo
+     * @return MorphMany
      */
-    public function attachment()
+    public function attachments()
     {
-        return $this->morphTo();
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**
@@ -96,102 +97,6 @@ class Comment extends Model
             return $builder
                 ->where("owner_id", '!=', $owner->getKey())
                 ->where("owner_type", '!=', $owner->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $attachment
-     * @return Builder
-     */
-    public function scopeWhereAttachmentIs(Builder $builder, Model $attachment)
-    {
-        return $builder->where(function (Builder $builder) use ($attachment) {
-            return $builder->where("attachment_id", "=", $attachment->getKey())
-                ->where("attachment_type", "=", $attachment->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $attachment
-     * @return Builder
-     */
-    public function scopeWhereAttachmentIsNot(Builder $builder, Model $attachment)
-    {
-        return $builder->where(function (Builder $builder) use ($attachment) {
-            return $builder->where("attachment_id", "!=", $attachment->getKey())
-                ->where("attachment_type", "!=", $attachment->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $attachment
-     * @return Builder
-     */
-    public function scopeOrWhereAttachmentIs(Builder $builder, Model $attachment)
-    {
-        return $builder->orWhere(function (Builder $builder) use ($attachment) {
-            return $builder->where("attachment_id", "=", $attachment->getKey())
-                ->where("attachment_type", "=", $attachment->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @param Model $attachment
-     * @return Builder
-     */
-    public function scopeOrWhereAttachmentIsNot(Builder $builder, Model $attachment)
-    {
-        return $builder->orWhere(function (Builder $builder) use ($attachment) {
-            return $builder->where("attachment_id", "!=", $attachment->getKey())
-                ->where("attachment_type", "!=", $attachment->getMorphClass());
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @return Builder
-     */
-    public function scopeWhereHasAttachment(Builder $builder)
-    {
-        return $builder->where(function (Builder $builder) {
-            return $builder->whereNotNull("attachment_id")->whereNotNull("attachment_type");
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @return Builder
-     */
-    public function scopeWhereHasNoAttachment(Builder $builder)
-    {
-        return $builder->where(function (Builder $builder) {
-            return $builder->whereNull("attachment_id")->whereNull("attachment_type");
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @return Builder
-     */
-    public function scopeOrWhereHasAttachment(Builder $builder)
-    {
-        return $builder->orWhere(function (Builder $builder) {
-            return $builder->whereNotNull("attachment_id")->whereNotNull("attachment_type");
-        });
-    }
-
-    /**
-     * @param Builder $builder
-     * @return Builder
-     */
-    public function scopeOrWhereHasNoAttachment(Builder $builder)
-    {
-        return $builder->orWhere(function (Builder $builder) {
-            return $builder->whereNull("attachment_id")->whereNull("attachment_type");
         });
     }
 }
