@@ -35,6 +35,11 @@ class SocietyRepository
     public ?StoriesRepository $stories = null;
 
     /**
+     * @var MessagesRepository|null
+     */
+    public ?MessagesRepository $messages = null;
+
+    /**
      * SocietyRepository constructor.
      * @param Sociable|Model $parent
      */
@@ -45,6 +50,7 @@ class SocietyRepository
         $this->comments = new CommentsRepository($this);
         $this->leans = new LeansRepository($this);
         $this->stories = new StoriesRepository($this);
+        $this->messages = new MessagesRepository($this);
     }
 
     /**
@@ -85,5 +91,13 @@ class SocietyRepository
     public function stories()
     {
         return $this->stories;
+    }
+
+    /**
+     * @return MessagesRepository|null
+     */
+    public function messages()
+    {
+        return $this->messages;
     }
 }
