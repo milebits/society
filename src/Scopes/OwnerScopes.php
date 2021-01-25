@@ -33,7 +33,7 @@ trait OwnerScopes
      */
     public function getOwnerIdColumn(): string
     {
-        return sprintf("%s_id", constVal($this, "OWNER_MORPH", 'owner_id'));
+        return sprintf("%s_id", constVal($this, "OWNER_MORPH", 'owner'));
     }
 
     /**
@@ -41,7 +41,7 @@ trait OwnerScopes
      */
     public function getOwnerTypeColumn(): string
     {
-        return sprintf("%s_type", constVal($this, "OWNER_MORPH", 'owner_type'));
+        return sprintf("%s_type", constVal($this, "OWNER_MORPH", 'owner'));
     }
 
     /**

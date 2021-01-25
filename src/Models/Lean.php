@@ -181,7 +181,7 @@ class Lean extends Model
      */
     public function getLeanableIdColumn(): string
     {
-        return constVal($this, sprintf("%s_id", self::LEANABLE_MORPH), 'leanable_id');
+        return constVal($this, sprintf("%s_id", self::LEANABLE_MORPH), 'leanable');
     }
 
     /**
@@ -189,7 +189,7 @@ class Lean extends Model
      */
     public function getLeanableTypeColumn(): string
     {
-        return constVal($this, sprintf("%s_type", self::LEANABLE_MORPH), 'leanable_type');
+        return constVal($this, sprintf("%s_type", self::LEANABLE_MORPH), 'leanable');
     }
 
     /**
