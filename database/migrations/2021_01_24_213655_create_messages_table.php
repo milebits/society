@@ -13,6 +13,7 @@ class CreateMessagesTable extends Migration
             $table->morphs("sender");
             $table->morphs("recipient");
             $table->longText("content")->default("");
+            $table->foreignId('message_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamp("seen_at")->nullable();
             $table->timestamp("delivered_at")->nullable();
             $table->timestamps();
