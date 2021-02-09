@@ -107,6 +107,8 @@ class SocietyRepository
      */
     protected function buildRepository(string $repository)
     {
-        return new (config(sprintf("society.repositories.%s", $repository)))($this);
+        $class = config('society.repositories.'.$repository);
+        if(is_null($class)) return null;
+        return new $class($this);
     }
 }
