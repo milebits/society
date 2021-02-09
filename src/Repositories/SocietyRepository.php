@@ -46,11 +46,11 @@ class SocietyRepository
     public function __construct($parent)
     {
         $this->parent = $parent;
-        $this->friends = new FriendsRepository($this);
-        $this->comments = new CommentsRepository($this);
-        $this->leans = new LeansRepository($this);
-        $this->stories = new StoriesRepository($this);
-        $this->messages = new MessagesRepository($this);
+        $this->friends = $this->buildRepository('friends');
+        $this->comments = $this->buildRepository('comments');
+        $this->leans = $this->buildRepository('leans');
+        $this->stories = $this->buildRepository('stories');
+        $this->messages = $this->buildRepository('messages');
     }
 
     /**
@@ -99,5 +99,14 @@ class SocietyRepository
     public function messages()
     {
         return $this->messages;
+    }
+
+    /**
+     * @param string $repository
+     * @return ChildRepository|mixed
+     */
+    protected function buildRepository(string $repository)
+    {
+        return new (config(sprintf("society.repositories.%s", $repository)))($this);
     }
 }
