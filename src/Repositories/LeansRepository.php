@@ -26,7 +26,7 @@ class LeansRepository extends ChildRepository
      */
     public function dislike(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::DISLIKE);
+        return $this->lean($model, Lean::DISLIKE);
     }
 
     /**
@@ -48,7 +48,7 @@ class LeansRepository extends ChildRepository
      */
     public function heart(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::HEART);
+        return $this->lean($model, Lean::HEART);
     }
 
     /**
@@ -58,7 +58,7 @@ class LeansRepository extends ChildRepository
      */
     public function laugh(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::LAUGH);
+        return $this->lean($model, Lean::LAUGH);
     }
 
     /**
@@ -68,7 +68,7 @@ class LeansRepository extends ChildRepository
      */
     public function like(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::LIKE);
+        return $this->lean($model, Lean::LIKE);
     }
 
     /**
@@ -77,7 +77,7 @@ class LeansRepository extends ChildRepository
      */
     public function sad(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::SAD);
+        return $this->lean($model, Lean::SAD);
     }
 
     /**
@@ -86,7 +86,7 @@ class LeansRepository extends ChildRepository
      */
     public function cry(Model $model): ?Lean
     {
-        return $this->newLean($model, Lean::CRY);
+        return $this->lean($model, Lean::CRY);
     }
 
     /**
@@ -94,7 +94,7 @@ class LeansRepository extends ChildRepository
      * @param string $status
      * @return Model|Lean|null
      */
-    public function newLean(Model $model, string $status): ?Model
+    public function lean(Model $model, string $status): ?Model
     {
         return Lean::whereBetweenModels($this->model(), $model)->updateOrCreate([
             'leanable_id' => $model->getKey(),
