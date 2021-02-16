@@ -105,10 +105,10 @@ class SocietyRepository
      * @param string $repository
      * @return ChildRepository|mixed
      */
-    protected function buildRepository(string $repository)
+    public function buildRepository(string $repository)
     {
-        $class = config('society.repositories.'.$repository);
-        if(is_null($class)) return null;
-        return new $class($this);
+        return is_null($class = config('society.repositories.' . $repository))
+            ? null
+            : new $class($this);
     }
 }
