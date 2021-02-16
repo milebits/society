@@ -17,7 +17,7 @@ abstract class ChildService
      */
     public function __construct(SocietyService $society)
     {
-
+        $this->societyService = $society;
     }
 
     /**
