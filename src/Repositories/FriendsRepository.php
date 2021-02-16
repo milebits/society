@@ -91,45 +91,52 @@ class FriendsRepository extends ChildRepository
     }
 
     /**
-     * @param Model $friend
+     * @param Model|FriendRequest $friendRequest
      * @return bool
      * @throws Exception
      */
-    public function delete(Model $friend): bool
+    public function delete(Model $friendRequest): bool
     {
-        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
+        if (!($friendRequest instanceof FriendRequest))
+            $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friendRequest)->first();
         if (is_null($friendRequest)) return true;
         return $friendRequest->delete();
     }
 
     /**
-     * @param Model $friend
+     * @param Model|FriendRequest $friendOrFriendRequest
      * @return FriendRequest
      * @throws Exception
      */
-    public function block(Model $friend): FriendRequest
+    public function block(Model $friendOrFriendRequest): FriendRequest
     {
-        return $this->newRequest($friend, FriendRequest::BLOCKED);
+        if ($friendOrFriendRequest instanceof FriendRequest)
+            $friendOrFriendRequest = $friendOrFriendRequest->sender()->first();
+        return $this->newRequest($friendOrFriendRequest, FriendRequest::BLOCKED);
     }
 
     /**
-     * @param Model $friend
+     * @param Model|FriendRequest $friendOrFriendRequest
      * @return FriendRequest
      * @throws Exception
      */
-    public function accept(Model $friend): FriendRequest
+    public function accept(Model $friendOrFriendRequest): FriendRequest
     {
-        return $this->newRequest($friend, FriendRequest::ACCEPTED);
+        if ($friendOrFriendRequest instanceof FriendRequest)
+            $friendOrFriendRequest = $friendOrFriendRequest->sender()->first();
+        return $this->newRequest($friendOrFriendRequest, FriendRequest::ACCEPTED);
     }
 
     /**
-     * @param Model $friend
+     * @param Model|FriendRequest $friendOrFriendRequest
      * @return FriendRequest
      * @throws Exception
      */
-    public function deny(Model $friend): FriendRequest
+    public function deny(Model $friendOrFriendRequest): FriendRequest
     {
-        return $this->newRequest($friend, FriendRequest::DENIED);
+        if ($friendOrFriendRequest instanceof FriendRequest)
+            $friendOrFriendRequest = $friendOrFriendRequest->sender()->first();
+        return $this->newRequest($friendOrFriendRequest, FriendRequest::DENIED);
     }
 
     /**
