@@ -7,7 +7,7 @@ namespace Milebits\Society\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Milebits\Society\Concerns\Sociable;
 
-class ChildRepository
+abstract class ChildRepository
 {
     /**
      * @var Model|Sociable|null
