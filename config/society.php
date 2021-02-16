@@ -3,6 +3,7 @@
 use Milebits\Society\Repositories\CommentsRepository;
 use Milebits\Society\Repositories\FriendsRepository;
 use Milebits\Society\Repositories\LeansRepository;
+use Milebits\Society\Repositories\MessagesRepository;
 use Milebits\Society\Repositories\StoriesRepository;
 
 return [
@@ -11,5 +12,7 @@ return [
         'friends' => FriendsRepository::class,
         'leans' => LeansRepository::class,
         'stories' => StoriesRepository::class,
-    ]
+        'messages' => MessagesRepository::class,
+    ],
+    'services' => [],
 ];
