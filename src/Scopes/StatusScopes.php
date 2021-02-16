@@ -5,7 +5,7 @@ namespace Milebits\Society\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use function Milebits\Society\Helpers\constVal;
+use function Milebits\Helpers\Helpers\constVal;
 
 /**
  * Trait StatusScopes
@@ -142,7 +142,7 @@ trait StatusScopes
      */
     public function statusIs(string $status): bool
     {
-        return $this->status === $status;
+        return $this->{$this->getStatusColumn()} === $status;
     }
 
     /**
