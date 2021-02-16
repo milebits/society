@@ -31,13 +31,7 @@
       "src/Helpers/functions.php"
     ],
     "psr-4": {
-      "Milebits\\Society\\": "src/",
-      "Milebits\\Society\\Database\\Seeders\\": "database/seeders/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Milebits\\Society\\Tests\\": "tests/"
+      "Milebits\\Society\\": "src/"
     }
   },
   "extra": {
