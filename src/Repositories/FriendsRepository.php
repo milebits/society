@@ -65,21 +65,16 @@ class FriendsRepository extends ChildRepository
      * @param Model $friend
      * @param string $status
      * @return FriendRequest|null
-     * @throws Exception
      */
     public function newRequest(Model $friend, string $status): ?FriendRequest
     {
-        $friendRequest = FriendRequest::whereBetweenModels($this->model(), $friend)->first();
-        if (is_null($friendRequest))
-            return FriendRequest::create([
-                'sender_id' => $this->model()->{$this->model()->getKeyName()},
-                'sender_type' => $this->model()->getMorphClass(),
-                'recipient_id' => $friend->{$friend->getKeyName()},
-                'recipient_type' => $friend->getMorphClass(),
-                'status' => $status,
-            ])->refresh();
-        $friendRequest->markAs($status)->save();
-        return $friendRequest->refresh();
+        return FriendRequest::whereBetweenModels($this->model(), $friend)->updateOrCreate([
+            'sender_id' => $this->model()->{$this->model()->getKeyName()},
+            'sender_type' => $this->model()->getMorphClass(),
+            'recipient_id' => $friend->{$friend->getKeyName()},
+            'recipient_type' => $friend->getMorphClass(),
+            'status' => $status,
+        ]);
     }
 
     /**

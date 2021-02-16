@@ -74,7 +74,6 @@ class LeansRepository extends ChildRepository
     /**
      * @param Model $model
      * @return Lean|null
-     * @throws Exception
      */
     public function sad(Model $model): ?Lean
     {
@@ -84,7 +83,6 @@ class LeansRepository extends ChildRepository
     /**
      * @param Model $model
      * @return Lean|null
-     * @throws Exception
      */
     public function cry(Model $model): ?Lean
     {
@@ -95,16 +93,14 @@ class LeansRepository extends ChildRepository
      * @param Model $model
      * @param string $status
      * @return Model|Lean|null
-     * @throws Exception
      */
     public function newLean(Model $model, string $status): ?Model
     {
-        $this->delete($model);
-        return $this->all()->create([
+        return Lean::whereBetweenModels($this->model(), $model)->updateOrCreate([
             'leanable_id' => $model->getKey(),
             'leanable_type' => $model->getMorphClass(),
             'status' => $status,
-        ]);
+        ])->refresh();
     }
 
     /**
