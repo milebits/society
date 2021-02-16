@@ -27,7 +27,7 @@ class Controller extends BaseController
 
     /**
      * @param Request|null $request
-     * @return App\User|Model|Sociable
+     * @return Model|Sociable
      */
     public function user(Request $request = null)
     {
