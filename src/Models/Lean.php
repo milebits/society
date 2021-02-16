@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Milebits\Society\Scopes\OwnerScopes;
 use Milebits\Society\Scopes\StatusScopes;
-use function Milebits\Society\Helpers\constVal;
+use function Milebits\Helpers\Helpers\constVal;
 
 /**
  * Class Lean
@@ -38,7 +38,7 @@ class Lean extends Model
      */
     public function markAs(string $status): self
     {
-        $this->status = $status;
+        $this->{$this->getStatusColumn()} = $status;
         return $this;
     }
 
