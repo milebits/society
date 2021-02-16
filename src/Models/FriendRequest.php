@@ -33,5 +33,4 @@ class FriendRequest extends Model
     const RECIPIENT_MORPH = "recipient";
     const SENDER_MORPH = "sender";
 
-
 }
