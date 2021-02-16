@@ -11,7 +11,6 @@ use Milebits\Eloquent\Filters\Concerns\Enableable;
 
 class Story extends Model
 {
-
     use SoftDeletes, HasFactory, Enableable;
 
     protected $fillable = ['content'];
