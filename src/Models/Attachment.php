@@ -18,7 +18,7 @@ class Attachment extends Model
 
     protected $fillable = ['path'];
 
-    public bool $AUTO_SLUG = true;
+    const AUTO_SLUG = true;
 
     /**
      * @return MorphTo
