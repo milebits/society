@@ -46,3 +46,8 @@ public function store(Request $request, User $friend)
 ```
 
 The rest of the documentation is coming later...
+# Contributions
+If in any case while using this package, and you which to request a new functionality to it, please contact us at suggestions@os.milebits.com and mention the package you are willing to contribute or suggest a new functionality.
+
+# Vulnerabilities
+If in any case while using this package, you encounter security issues or security vulnerabilities, please do report them as soon as possible by issuing an issue here in Github or by sending an email to security@os.milebits.com with the mention **Vulnerability Report milebits/society** as your subject.
