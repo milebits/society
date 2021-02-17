@@ -5,7 +5,7 @@
   "require": {
     "laravel/framework": "^6|^7|^8",
     "php": ">=7.4",
-    "milebits/eloquent-filters": ">=2.0",
+    "milebits/eloquent-filters": "^2.0",
     "milebits/laravel-stream": ">=1.0",
     "milebits/helpers": ">=1.0"
   },
@@ -42,5 +42,8 @@
         "Milebits\\Society\\Providers\\SocietyServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
   }
 }
