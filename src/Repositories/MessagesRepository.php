@@ -40,9 +40,9 @@ class MessagesRepository extends ChildRepository
     public function send(Model $friend, string $content = '', $attachment = null): ?Message
     {
         if (!$this->canSendMessageTo($friend)) return null;
-        $message = $this->newMessage($friend, compact($content));
+        $message = $this->newMessage($friend, ['content' => $content]);
         if (!is_null($attachment)) {
-            if (is_string($attachment)) $attachment = [compact($attachment)];
+            if (is_string($attachment)) $attachment = ['attachment' => $attachment];
             if (is_array($attachment)) $attachment = collect($attachment);
             if ($attachment instanceof Arrayable)
                 $message->attachments()->createMany($attachment->toArray());
@@ -95,7 +95,7 @@ class MessagesRepository extends ChildRepository
      */
     public function respond(Message $message, string $content, string $attachment = null)
     {
-        $message = $this->newMessage($message->sender()->first(), compact($content));
+        $message = $this->newMessage($message->sender()->first(), ['content' => $content]);
         $message->parentMessage()->associate($message);
         if (!is_null($attachment))
             $message->attachments()->create(['path' => $attachment]);

@@ -17,6 +17,8 @@ class Message extends Model
     use Attachable, SoftDeletes, HasFactory;
     use SenderScopes, RecipientScopes, BetweenModelsScopes;
 
+    protected $fillable = ['content', 'seen_at', 'delivered_at'];
+
     /**
      * @return BelongsTo
      */
