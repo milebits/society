@@ -27,4 +27,13 @@ abstract class ChildService
     {
         return $this->societyService;
     }
+
+    /**
+     * @param string $service
+     * @return ChildService|null
+     */
+    public function otherService(string $service)
+    {
+        return $this->societyService()->buildService($service);
+    }
 }
