@@ -5,9 +5,9 @@
   "require": {
     "laravel/framework": "^6|^7|^8",
     "php": ">=7.4",
-    "milebits/eloquent-filters": "^2.0",
+    "milebits/eloquent-filters": ">=2.0",
     "milebits/laravel-stream": ">=1.0",
-    "milebits/helpers": "^1.0"
+    "milebits/helpers": ">=1.0"
   },
   "license": "GPL-3.0-or-later",
   "authors": [
@@ -27,11 +27,13 @@
   "prefer-stable": true,
   "minimum-stability": "dev",
   "autoload": {
-    "files": [
-      "src/Helpers/functions.php"
-    ],
     "psr-4": {
       "Milebits\\Society\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Milebits\\SocietyTests\\": "tests/"
     }
   },
   "extra": {
