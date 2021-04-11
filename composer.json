@@ -5,9 +5,9 @@
   "require": {
     "laravel/framework": "^6|^7|^8",
     "php": ">=8.0",
-    "milebits/eloquent-filters": ">=2.0",
-    "milebits/laravel-stream": ">=1.0",
-    "milebits/helpers": ">=1.0"
+    "milebits/eloquent-filters": "^2|^3",
+    "milebits/laravel-stream": "^1|^2",
+    "milebits/helpers": "^2"
   },
   "license": "GPL-3.0-or-later",
   "authors": [
