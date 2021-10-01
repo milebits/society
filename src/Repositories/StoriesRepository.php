@@ -16,7 +16,7 @@ class StoriesRepository extends ChildRepository
     /**
      * @return MorphMany
      */
-    public function all()
+    public function all(): MorphMany
     {
         return $this->model()->morphMany(Story::class, "owner");
     }
@@ -26,7 +26,7 @@ class StoriesRepository extends ChildRepository
      * @param string|null $content
      * @param bool $enabled
      *
-     * @return Model|Story|null
+     * @return \Illuminate\Database\Eloquent\Model|Story|null
      */
     public function add(string $filePath, string $content = null, bool $enabled = true): ?Model
     {
