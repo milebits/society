@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Milebits\Society\Concerns\Sociable;
-use function Milebits\Helpers\Helpers\hasTrait;
+use function hasTrait;
 
 class NotBlockedByPersonMiddleware
 {

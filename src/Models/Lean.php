@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Milebits\Society\Scopes\OwnerScopes;
 use Milebits\Society\Scopes\StatusScopes;
-use function Milebits\Helpers\Helpers\constVal;
+use function constVal;
 
 /**
  * Class Lean

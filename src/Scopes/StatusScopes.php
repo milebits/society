@@ -5,7 +5,7 @@ namespace Milebits\Society\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use function Milebits\Helpers\Helpers\constVal;
+use function constVal;
 
 /**
  * Trait StatusScopes

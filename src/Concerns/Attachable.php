@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Response;
 use Milebits\Society\Models\Attachment;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use function Milebits\LaravelStream\Helpers\videoStream;
-use function Milebits\Society\Helpers\constVal;
+use function videoStream;
+use function constVal;
 
 /**
  * Trait Attachable
