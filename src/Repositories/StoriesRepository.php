@@ -8,6 +8,7 @@ use Milebits\Society\Models\Story;
 
 /**
  * Class StoriesRepository
+ *
  * @package Milebits\Society\Repositories
  */
 class StoriesRepository extends ChildRepository
@@ -24,6 +25,7 @@ class StoriesRepository extends ChildRepository
      * @param string $filePath
      * @param string|null $content
      * @param bool $enabled
+     *
      * @return Model|Story|null
      */
     public function add(string $filePath, string $content = null, bool $enabled = true): ?Model
