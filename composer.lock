@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05b70166ae0103b9aa8d28135fb86a14",
+    "content-hash": "eefccb1ebec01a20c211c25d2eb919a5",
     "packages": [
         {
             "name": "brick/math",
@@ -1203,21 +1203,22 @@
         },
         {
             "name": "milebits/laravel-stream",
-            "version": "2.0.2",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/milebits/laravel-stream.git",
-                "reference": "3c9be85fff21fb9e0d831177952f36dee63ee8b0"
+                "reference": "a822a16cfd5321a8ba8878279166a6693cbdcb5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/milebits/laravel-stream/zipball/3c9be85fff21fb9e0d831177952f36dee63ee8b0",
-                "reference": "3c9be85fff21fb9e0d831177952f36dee63ee8b0",
+                "url": "https://api.github.com/repos/milebits/laravel-stream/zipball/a822a16cfd5321a8ba8878279166a6693cbdcb5c",
+                "reference": "a822a16cfd5321a8ba8878279166a6693cbdcb5c",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^6|^7|^8",
-                "php": ">=7.1"
+                "laravel/framework": "^8",
+                "milebits/helpers": "^3",
+                "php": ">=8.0"
             },
             "type": "library",
             "extra": {
@@ -1228,9 +1229,6 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "Helpers/functions.php"
-                ],
                 "psr-4": {
                     "Milebits\\LaravelStream\\": "src/"
                 }
@@ -1265,9 +1263,9 @@
             ],
             "support": {
                 "issues": "https://github.com/milebits/laravel-stream/issues",
-                "source": "https://github.com/milebits/laravel-stream/tree/2.0.2"
+                "source": "https://github.com/milebits/laravel-stream/tree/3.0.1"
             },
-            "time": "2021-03-29T07:34:56+00:00"
+            "time": "2021-10-01T00:50:23+00:00"
         },
         {
             "name": "monolog/monolog",
