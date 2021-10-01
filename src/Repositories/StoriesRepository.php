@@ -28,7 +28,7 @@ class StoriesRepository extends ChildRepository
      *
      * @return \Illuminate\Database\Eloquent\Model|Story|null
      */
-    public function add(string $filePath, string $content = null, bool $enabled = true): ?Model
+    public function add(string $filePath, string $content = null, bool $enabled = true): Model|Story|null
     {
         return $this->all()->create([
             'media_path' => $filePath,
